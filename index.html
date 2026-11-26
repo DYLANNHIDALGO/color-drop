@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>COLOR DROP 2.0</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Fondo con partículas animadas -->
+    <div id="bg-particles"></div>
+    <div id="flash-overlay"></div>
+    <div id="shake-overlay"></div>
+
+    <!-- ===== MENÚ PRINCIPAL ===== -->
+    <div id="main-menu" class="screen active">
+        <div class="menu-card glass">
+            <h1 class="game-title">COLOR <span>DROP</span> <span class="ver">2.0</span></h1>
+            <p class="game-subtitle">"¿Qué tan rápido puedes reconocer los colores?"</p>
+            <div class="menu-buttons">
+                <button class="btn btn-primary" onclick="openModeSelect()">▶ JUGAR</button>
+                <button class="btn btn-secondary" onclick="showInstructions()">📖 CÓMO JUGAR</button>
+                <button class="btn btn-secondary" onclick="showHighScores()">🏆 MEJORES PUNTUACIONES</button>
+            </div>
+            <div class="menu-footer">
+                <button id="sound-toggle-menu" class="btn btn-icon" onclick="toggleSound()">🔊</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SELECTOR DE MODO ===== -->
+    <div id="mode-select" class="screen">
+        <div class="menu-card glass">
+            <h2 class="screen-title">SELECCIONA EL MODO</h2>
+            <div class="mode-cards">
+                <div class="mode-card" onclick="startGame('clasico')">
+                    <div class="mode-card-icon">🎮</div>
+                    <div class="mode-card-title">MODO CLÁSICO</div>
+                    <div class="mode-card-desc">3 vidas · dificultad progresiva</div>
+                </div>
+                <div class="mode-card" onclick="startGame('contrarreloj')">
+                    <div class="mode-card-icon">⏱</div>
+                    <div class="mode-card-title">CONTRARRELOJ</div>
+                    <div class="mode-card-desc">60 segundos · puntuación máxima</div>
+                </div>
+                <div class="mode-card" onclick="startGame('infinito')">
+                    <div class="mode-card-icon">♾</div>
+                    <div class="mode-card-title">MODO INFINITO</div>
+                    <div class="mode-card-desc">Sin límites · velocidad infinita</div>
+                </div>
+            </div>
+            <button class="btn btn-ghost" onclick="showMainMenu()">VOLVER</button>
+        </div>
+    </div>
+
+    <!-- ===== INSTRUCCIONES ===== -->
+    <div id="instructions" class="screen">
+        <div class="menu-card glass">
+            <h2 class="screen-title">📖 CÓMO JUGAR</h2>
+            <div class="instructions-content">
+                <div class="tutorial-step">
+                    <div class="tutorial-icon">1️⃣</div>
+                    <p>Arriba del centro aparece el color que debes buscar, por ejemplo: <strong style="color:#3742fa">AZUL</strong></p>
+                </div>
+                <div class="tutorial-step">
+                    <div class="tutorial-icon">2️⃣</div>
+                    <p>Debajo hay botones de colores: <span class="demo-btn red">ROJO</span> <span class="demo-btn blue">AZUL</span> <span class="demo-btn green">VERDE</span> <span class="demo-btn yellow">AMARILLO</span></p>
+                </div>
+                <div class="tutorial-step">
+                    <div class="tutorial-icon">3️⃣</div>
+                    <p>Pulsa el botón del color que dice arriba. <strong>Los objetos que caen son solo decoración, ¡no los mires!</strong></p>
+                </div>
+                <div class="tutorial-step">
+                    <div class="tutorial-icon">4️⃣</div>
+                    <p>Si aciertas en cadena consigues <strong style="color:#ffc048">COMBOS</strong> y más puntos.</p>
+                </div>
+                <div class="tutorial-step">
+                    <div class="tutorial-icon">5️⃣</div>
+                    <p>No te equivoques ni dejes pasar el color correcto, o pierdes una vida. ¡3 vidas!</p>
+                </div>
+                <div class="tutorial-step">
+                    <div class="tutorial-icon">6️⃣</div>
+                    <p>Icons especiales: <span class="pu-tag">⚡ velocidad</span> <span class="pu-tag">❄️ congelar</span> <span class="pu-tag">❤️ vida</span> <span class="pu-tag">💎 doble puntos</span> <span class="pu-tag">🛡️ escudo</span></p>
+                </div>
+                <p class="tips"><strong>Atajos de teclado:</strong> 1=ROJO, 2=AZUL, 3=VERDE, 4=AMARILLO, 5=NARANJA, 6=MORADO · <strong>P</strong> o <strong>ESC</strong> = Pausa</p>
+                <button class="btn btn-primary" onclick="showMainMenu()">¡ENTENDIDO, A JUGAR!</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MEJORES PUNTUACIONES ===== -->
+    <div id="highscores" class="screen">
+        <div class="menu-card glass">
+            <h2 class="screen-title">🏆 MEJORES PUNTUACIONES</h2>
+            <div id="highscore-list" class="highscore-list"></div>
+            <button class="btn btn-primary" onclick="showMainMenu()">VOLVER</button>
+        </div>
+    </div>
+
+    <!-- ===== PANTALLA DE JUEGO ===== -->
+    <div id="game-screen" class="screen">
+        <header id="game-header">
+            <div class="hud-left">
+                <div class="hud-item"><span class="hud-icon">🎯</span> <span id="score">0</span></div>
+                <div class="hud-item"><span class="hud-icon">📊</span> <span id="level">1</span></div>
+                <div class="hud-item"><span class="hud-icon">🏆</span> <span id="record">0</span></div>
+                <div class="hud-item"><span class="hud-icon">❤️</span> <span id="lives">❤️❤️❤️</span></div>
+            </div>
+            <div class="hud-right">
+                <div id="mode-label" class="mode-label">CLÁSICO</div>
+                <div id="timer-display" class="timer-display" style="display:none;">⏱ 60</div>
+                <button id="pause-btn" class="btn btn-icon" onclick="togglePause()">⏸</button>
+                <button id="sound-toggle-game" class="btn btn-icon" onclick="toggleSound()">🔊</button>
+            </div>
+        </header>
+
+        <!-- Barra de progreso de nivel -->
+        <div class="level-progress-container">
+            <div class="progress-label">NIVEL <span id="progress-level-number">1</span></div>
+            <div id="level-progress" class="level-progress"></div>
+            <span id="level-progress-text" class="level-progress-text">0/100</span>
+        </div>
+
+        <!-- Indicador de color objetivo -->
+        <div id="target-display" class="target-display">
+            <div id="target-label">PULSA EL COLOR</div>
+            <div id="target-color-name" class="target-color-name">ROJO</div>
+        </div>
+
+        <!-- Frase dinámica -->
+        <div id="dynamic-phrase" class="dynamic-phrase">¡VAMOS!</div>
+
+        <!-- Área de juego -->
+        <div id="play-area">
+            <canvas id="game-canvas"></canvas>
+        </div>
+
+        <!-- Botones de colores -->
+        <div id="color-buttons" class="color-buttons"></div>
+
+        <!-- Activos / power-ups -->
+        <div id="active-effects" class="active-effects"></div>
+
+        <!-- Combo display -->
+        <div id="combo-display" class="combo-display"></div>
+    </div>
+
+    <!-- ===== MENÚ DE PAUSA ===== -->
+    <div id="pause-menu" class="screen">
+        <div class="menu-card glass">
+            <h2 class="screen-title">⏸ JUEGO PAUSADO</h2>
+            <div class="menu-buttons">
+                <button class="btn btn-primary" onclick="togglePause()">▶ CONTINUAR</button>
+                <button class="btn btn-secondary" onclick="restartGame()">🔄 REINICIAR</button>
+                <button class="btn btn-ghost" onclick="exitToMenu()">🏠 SALIR</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== GAME OVER ===== -->
+    <div id="game-over" class="screen">
+        <div class="menu-card glass">
+            <h2 class="game-over-title">GAME OVER</h2>
+            <div id="new-record-banner" class="new-record-banner" style="display:none;">🏆 ¡NUEVO RÉCORD! 🏆</div>
+            <div class="game-over-stats">
+                <div class="stat"><span class="stat-icon">🎯</span><span class="stat-value" id="final-score">0</span><span class="stat-label">Puntuación</span></div>
+                <div class="stat"><span class="stat-icon">📊</span><span class="stat-value" id="final-level">1</span><span class="stat-label">Nivel</span></div>
+                <div class="stat"><span class="stat-icon">⚡</span><span class="stat-value" id="final-combo">x0</span><span class="stat-label">Mejor combo</span></div>
+            </div>
+            <div id="final-time-display" class="final-time-display" style="display:none;"></div>
+            <div class="menu-buttons">
+                <button class="btn btn-primary" onclick="restartGame()">🔄 JUGAR DE NUEVO</button>
+                <button class="btn btn-secondary" onclick="exitToMenu()">🏠 MENÚ PRINCIPAL</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== ANUNCIO NIVEL NUEVO ===== -->
+    <div id="level-up-banner" class="level-up-banner">¡NIVEL 2!</div>
+
+    <!-- ===== TUTORIAL INICIAL ===== -->
+    <div id="tutorial" class="screen">
+        <div class="menu-card glass">
+            <h2 class="screen-title">👉 ASÍ SE JUEGA</h2>
+            <div class="tutorial-box">
+                <div class="tutorial-target">
+                    <span class="tutorial-target-pulse" style="background:#ff4757"></span>
+                    <span class="tutorial-target-text">PULSA EL COLOR</span>
+                    <span class="tutorial-target-name" style="color:#ff4757">ROJO</span>
+                </div>
+                <p class="tutorial-hint">Pulsa el botón <strong style="color:#ff4757">ROJO</strong> de abajo. Los objetos que caen no importan.</p>
+                <div class="tutorial-buttons">
+                    <span class="demo-btn red">ROJO</span>
+                    <span class="demo-btn blue">AZUL</span>
+                    <span class="demo-btn green">VERDE</span>
+                    <span class="demo-btn yellow">AMARILLO</span>
+                </div>
+            </div>
+            <div class="menu-buttons">
+                <button class="btn btn-primary" onclick="closeTutorial()">¡ENTENDIDO!</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
