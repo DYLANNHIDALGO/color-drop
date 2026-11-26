@@ -4,6 +4,8 @@
 
 Juego web de reflejos y reconocimiento de colores, desarrollado con HTML, CSS y JavaScript puro (sin frameworks ni dependencias).
 
+🎮 **Jugar en línea:** [https://dylannhidalgo.github.io/color-drop/](https://dylannhidalgo.github.io/color-drop/)
+
 ---
 
 ## Tabla de contenidos
@@ -80,7 +82,7 @@ No se requiere instalar dependencias, compilar ni configurar bases de datos.
 
 1. Entra a la carpeta del proyecto:
    ```bash
-   cd JUEGO
+   cd color-drop
    ```
 2. Inicia un servidor, con cualquiera de estas opciones:
    ```bash
@@ -94,10 +96,11 @@ No se requiere instalar dependencias, compilar ni configurar bases de datos.
 
 ### Opción C: publicar en GitHub Pages
 
-1. Sube el proyecto a un repositorio de GitHub.
+1. Sube el proyecto a un repositorio de GitHub (los archivos deben quedar en la raíz, no dentro de una carpeta).
 2. Ve a **Settings → Pages**.
-3. En *Source* elige la rama `main` y la carpeta raíz (`/`).
-4. Tras unos minutos, el juego estará disponible en `https://<usuario>.github.io/<repositorio>/`.
+3. En **Source** elige **Deploy from a branch**.
+4. En **Branch** selecciona `main`, deja la carpeta en `/ (root)` y pulsa **Save**.
+5. Tras 1 o 2 minutos, el juego estará disponible en `https://dylannhidalgo.github.io/color-drop/`.
 
 ## Credenciales de acceso
 
@@ -154,7 +157,7 @@ Toda la configuración está en las constantes al inicio de `script.js`, por lo 
 ## Estructura del proyecto
 
 ```
-JUEGO/
+color-drop/
 ├── index.html   # Estructura HTML: todas las pantallas del juego
 ├── style.css    # Estilos, animaciones y diseño responsivo
 ├── script.js    # Lógica: estado, bucle de juego, canvas, audio y eventos
@@ -232,7 +235,7 @@ Los power-ups aparecen con una probabilidad del 3 % en el nivel 1 y del 7 % desd
 | Problema | Posible causa | Solución |
 |---|---|---|
 | No se escucha ningún sonido | El sonido está desactivado o el navegador bloquea el audio hasta que hay interacción | Pulsa el botón 🔊 y haz clic en el juego; revisa el volumen del dispositivo |
-| El juego aparece sin estilos | `style.css` no está en la misma carpeta que `index.html` | Verifica que los tres archivos estén juntos en `JUEGO/` |
+| El juego aparece sin estilos | `style.css` no está en la misma carpeta que `index.html` | Verifica que los tres archivos estén juntos en la raíz del repositorio |
 | La pantalla queda en blanco | `script.js` no se cargó o hay un error de JavaScript | Abre la consola (`F12`) y revisa errores; recarga con `Ctrl + F5` |
 | Las puntuaciones no se guardan | `localStorage` bloqueado (modo incógnito estricto o cookies desactivadas) | Usa una ventana normal o habilita el almacenamiento del sitio |
 | Las puntuaciones desaparecieron | Se borraron los datos del navegador | Es normal: se guardan solo localmente |
@@ -245,7 +248,7 @@ Los power-ups aparecen con una probabilidad del 3 % en el nivel 1 y del 7 % desd
 | Nombre | Rol | Responsabilidades | GitHub |
 |---|---|---|---|
 | Hidalgo Soto Dylann | Diseño de interfaz y documentación | Estructura HTML de las pantallas, estilos y animaciones CSS, diseño responsivo, efectos visuales y de sonido, tutorial, pruebas de jugabilidad y redacción del README | [@DYLANNHIDALGO](https://github.com/DYLANNHIDALGO) |
-| Tacuche Santiago Piero | Desarrollador principal (lógica del juego) | Estado del juego, bucle principal con Canvas, sistema de combos, niveles y dificultad progresiva, power-ups, modos Clásico / Contrarreloj / Infinito y almacenamiento con `localStorage` | [@usuario](https://github.com/usuario) |
+| Tacuche Santiago Piero | Desarrollador principal (lógica del juego) | Estado del juego, bucle principal con Canvas, sistema de combos, niveles y dificultad progresiva, power-ups, modos Clásico / Contrarreloj / Infinito y almacenamiento con `localStorage` | — |
 
 ---
 
